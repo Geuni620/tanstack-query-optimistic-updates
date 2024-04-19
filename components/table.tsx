@@ -12,6 +12,7 @@ import {
 } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import { ArrowUpDown } from 'lucide-react';
+import Link from 'next/link';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
@@ -91,7 +92,13 @@ export const TableComponents: React.FC<TableComponentsProps> = ({ data }) => {
         );
       },
 
-      cell: (props) => <p>{props.getValue()}</p>,
+      cell: (props) => {
+        return (
+          <Link href={`/details/${props.row.original.id}`}>
+            <p>{props.getValue()}</p>
+          </Link>
+        );
+      },
       size: 250,
     }),
     columnHelper.accessor('statusName', {
