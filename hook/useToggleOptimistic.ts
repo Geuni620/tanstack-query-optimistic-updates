@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-export const MUTATION_KEY = 'toggle-checkbox';
+export const MUTATION_KEY = 'detail';
 
 type ChangeToggle = {
   id: number;
@@ -43,6 +43,7 @@ export const useToggleOptimistic = () => {
         queryKey: ['detail'],
       });
     },
+    mutationKey: [MUTATION_KEY],
   });
 
   return toggleMutation;

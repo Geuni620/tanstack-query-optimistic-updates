@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { useDetailDataGetQuery } from '@/hook/useDetailDataGetQuery';
+import { type DetailData } from '@/hook/useDetailDataGetQuery';
 import { MUTATION_KEY } from '@/hook/useToggleOptimistic';
 import { useToggleOptimistic } from '@/hook/useToggleOptimistic';
 
@@ -19,9 +20,14 @@ const DetailPage = () => {
   const pendingData = useMutationState({
     filters: { mutationKey: [MUTATION_KEY], status: 'pending' },
     select: (mutation) => {
-      return mutation.state.variables;
+      console.log('mutation', mutation);
+      return mutation.state.variables as DetailData;
     },
   });
+
+  // console.log('pendingData', pendingData);
+  const pending = pendingData ? pendingData[0] : null;
+  console.log('pending', pending);
 
   if (detail.data)
     return (
@@ -31,7 +37,7 @@ const DetailPage = () => {
             <h1 className="text-2xl font-bold">{detail.data.task}</h1>
             <div className="flex items-center">
               <Checkbox
-                checked={detail.data.done}
+                checked={pending ? pending.done : detail.data.done}
                 className="mr-2"
                 id="complete"
                 onCheckedChange={(checked: boolean) => {
