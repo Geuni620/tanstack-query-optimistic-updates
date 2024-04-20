@@ -10,8 +10,9 @@ const supabase = createClient(
 
 export async function GET(request: Request) {
   try {
-    const url = new URL(request.url);
-    // /TODO: pathname
+    const { pathname } = new URL(request.url);
+    const segments = pathname.split('/');
+    const id = segments.pop();
 
     if (!id) {
       throw new Error('ID parameter is missing');
@@ -23,10 +24,8 @@ export async function GET(request: Request) {
       .eq('id', id)
       .single();
 
-    console.log('data', data);
-
     if (error) {
-      throw error;
+      throw new Error(error.message);
     }
 
     return NextResponse.json({
