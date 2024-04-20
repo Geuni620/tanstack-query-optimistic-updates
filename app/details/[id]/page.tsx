@@ -1,5 +1,6 @@
 'use client';
 
+import { useMutationState } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { useParams } from 'next/navigation';
 
@@ -8,10 +9,19 @@ import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { useDetailDataGetQuery } from '@/hook/useDetailDataGetQuery';
+import { MUTATION_KEY } from '@/hook/useToggleOptimistic';
+import { useToggleOptimistic } from '@/hook/useToggleOptimistic';
 
 const DetailPage = () => {
   const { id } = useParams();
   const detail = useDetailDataGetQuery({ id });
+  const toggleMutation = useToggleOptimistic();
+  const pendingData = useMutationState({
+    filters: { mutationKey: [MUTATION_KEY], status: 'pending' },
+    select: (mutation) => {
+      return mutation.state.variables;
+    },
+  });
 
   if (detail.data)
     return (
@@ -24,6 +34,12 @@ const DetailPage = () => {
                 checked={detail.data.done}
                 className="mr-2"
                 id="complete"
+                onCheckedChange={(checked: boolean) => {
+                  toggleMutation.mutate({
+                    id: detail.data.id,
+                    done: checked,
+                  });
+                }}
               />
               <Label htmlFor="complete">Mark as Complete</Label>
             </div>

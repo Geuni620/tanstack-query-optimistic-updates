@@ -6,6 +6,7 @@ const changeToggle = async ({
 }: {
   selectedRow: Record<number, boolean>;
 }) => {
+  console.log('selectedRow', selectedRow);
   const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/toggle`, {
     method: 'POST',
     headers: {
