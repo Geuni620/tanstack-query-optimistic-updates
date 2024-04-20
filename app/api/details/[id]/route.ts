@@ -29,7 +29,7 @@ export async function GET(request: Request) {
     }
 
     return NextResponse.json({
-      data,
+      detail: data,
     });
   } catch (error) {
     return handleErrorResponse(error);
