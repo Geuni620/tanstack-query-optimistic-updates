@@ -1,6 +1,7 @@
 'use client';
 
 import { format } from 'date-fns';
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
 
 import { Badge } from '@/components/ui/badge';
@@ -13,7 +14,6 @@ import { useDetailDataGetQuery } from '@/hook/useDetailDataGetQuery';
 const DetailPage = () => {
   const { id } = useParams();
   const detail = useDetailDataGetQuery({ id });
-  console.log('detail', detail.data);
 
   if (detail.data)
     return (
@@ -30,9 +30,7 @@ const DetailPage = () => {
               <Label htmlFor="complete">Mark as Complete</Label>
             </div>
           </div>
-
           <p className="mt-2 text-gray-500">{detail.data.notes}</p>
-
           <Badge className="text-end">
             {format(detail.data.date, 'yyyy-MM-dd HH:mm:ss')}
           </Badge>
@@ -42,7 +40,7 @@ const DetailPage = () => {
           <div className="space-y-4">
             <div className="rounded-lg bg-gray-100 p-4 dark:bg-gray-800">
               <div className="flex items-start">
-                <img
+                <Image
                   alt="User Avatar"
                   className="mr-3 rounded-full"
                   height={40}
@@ -57,14 +55,14 @@ const DetailPage = () => {
                   <h3 className="font-medium">Geuni620</h3>
                   <p className="text-sm text-gray-500">2 days ago</p>
                   <p className="mt-2">
-                    Don't forget to pick up some fresh produce as well!
+                    Don&apos;t forget to pick up some fresh produce as well!
                   </p>
                 </div>
               </div>
             </div>
             <div className="rounded-lg bg-gray-100 p-4 dark:bg-gray-800">
               <div className="flex items-start">
-                <img
+                <Image
                   alt="User Avatar"
                   className="mr-3 rounded-full"
                   height={40}
