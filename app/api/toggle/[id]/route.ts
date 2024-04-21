@@ -16,6 +16,8 @@ export async function POST(request: Request) {
     console.log('id', id, 'done', done);
     const now = format(new Date(), 'yyyy-MM-dd HH:mm:ss', { locale: ko });
 
+    // throw new Error('일시적 오류 발생!!!');
+
     const { data, error } = await supabase
       .from('tasks')
       .update({ done, date: now })
@@ -25,7 +27,7 @@ export async function POST(request: Request) {
 
     if (error) throw new Error(error.message);
 
-    console.log('data', data);
+    // console.log('data', data);
 
     return NextResponse.json({ message: 'Update successful' });
   } catch (error) {

@@ -1,6 +1,5 @@
 'use client';
 
-import { useMutationState } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { useParams } from 'next/navigation';
 
@@ -9,13 +8,12 @@ import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { useDetailDataGetQuery } from '@/hook/useDetailDataGetQuery';
-import { type DetailData } from '@/hook/useDetailDataGetQuery';
-import { MUTATION_KEY } from '@/hook/useToggleOptimisticUi';
-import { useToggleOptimisticUi } from '@/hook/useToggleOptimisticUi';
+import { useToggleOptimisticCache } from '@/hook/useToggleOptimistic';
 
 const DetailPage = () => {
   const { id } = useParams();
   const detail = useDetailDataGetQuery({ id });
+  const toggleMutation = useToggleOptimisticCache();
 
   /**
   const toggleMutation = useToggleOptimisticUi();
@@ -51,6 +49,7 @@ const DetailPage = () => {
                   });
                 }}
               />
+              {/* <Label htmlFor="complete">Mark as Complete</Label> */}
               {toggleMutation.isPending ? (
                 <Label className="opacity-20" htmlFor="complete">
                   Mark as Complete
