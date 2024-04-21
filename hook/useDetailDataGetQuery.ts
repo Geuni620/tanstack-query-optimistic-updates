@@ -5,7 +5,7 @@ type DetailDataProps = {
   id: string | string[];
 };
 
-type DetailData = {
+export type DetailData = {
   id: number;
   task: string;
   statusId: number;

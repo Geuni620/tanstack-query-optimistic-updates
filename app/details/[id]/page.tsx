@@ -25,9 +25,9 @@ const DetailPage = () => {
     },
   });
 
-  // console.log('pendingData', pendingData);
   const pending = pendingData ? pendingData[0] : null;
-  console.log('pending', pending);
+  // console.log('toggleMutation', toggleMutation.isPending);
+  // console.log('pendingData', pendingData);
 
   if (detail.data)
     return (
@@ -38,6 +38,7 @@ const DetailPage = () => {
             <div className="flex items-center">
               <Checkbox
                 checked={pending ? pending.done : detail.data.done}
+                // checked={detail.data.done}
                 className="mr-2"
                 id="complete"
                 onCheckedChange={(checked: boolean) => {
@@ -47,7 +48,13 @@ const DetailPage = () => {
                   });
                 }}
               />
-              <Label htmlFor="complete">Mark as Complete</Label>
+              {toggleMutation.isPending ? (
+                <Label className="opacity-20" htmlFor="complete">
+                  Mark as Complete
+                </Label>
+              ) : (
+                <Label htmlFor="complete">Mark as Complete</Label>
+              )}
             </div>
           </div>
           <p className="mt-2 text-gray-500">{detail.data.notes}</p>
