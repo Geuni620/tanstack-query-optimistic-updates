@@ -3,7 +3,7 @@ import { toast } from 'sonner';
 
 import { type DetailData } from '@/hook/useDetailDataGetQuery';
 
-// export const MUTATION_KEY = 'detail';
+export const MUTATION_KEY = 'detail';
 
 type ChangeToggle = {
   id: number;
@@ -31,25 +31,25 @@ const changeToggle = async ({ id, done }: ChangeToggle) => {
   return data;
 };
 
-// export const useToggleOptimisticUi = () => {
-//   const queryClient = useQueryClient();
+export const useToggleOptimisticUi = () => {
+  const queryClient = useQueryClient();
 
-//   const toggleMutation = useMutation({
-//     mutationFn: changeToggle,
-//     onSuccess: () => {
-//       toast.success('성공적으로 업데이트 하였습니다!');
-//     },
-//     onSettled: () => {
-//       // 해당부분은 return으로 처리해야함
-//       return queryClient.invalidateQueries({
-//         queryKey: ['detail'],
-//       });
-//     },
-//     mutationKey: [MUTATION_KEY],
-//   });
+  const toggleMutation = useMutation({
+    mutationFn: changeToggle,
+    onSuccess: () => {
+      toast.success('성공적으로 업데이트 하였습니다!');
+    },
+    onSettled: () => {
+      // 해당부분은 return으로 처리해야함
+      return queryClient.invalidateQueries({
+        queryKey: ['detail'],
+      });
+    },
+    mutationKey: [MUTATION_KEY],
+  });
 
-//   return toggleMutation;
-// };
+  return toggleMutation;
+};
 
 export const useToggleOptimisticCache = () => {
   const queryClient = useQueryClient();

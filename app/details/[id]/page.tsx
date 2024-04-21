@@ -1,5 +1,6 @@
 'use client';
 
+import { useMutationState } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { useParams } from 'next/navigation';
 
@@ -8,14 +9,19 @@ import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { useDetailDataGetQuery } from '@/hook/useDetailDataGetQuery';
-import { useToggleOptimisticCache } from '@/hook/useToggleOptimistic';
+import { type DetailData } from '@/hook/useDetailDataGetQuery';
+import {
+  MUTATION_KEY,
+  useToggleOptimisticCache,
+  useToggleOptimisticUi,
+} from '@/hook/useToggleOptimistic';
 
 const DetailPage = () => {
   const { id } = useParams();
   const detail = useDetailDataGetQuery({ id });
-  const toggleMutation = useToggleOptimisticCache();
+  // const toggleMutation = useToggleOptimisticCache();
 
-  /**
+  /***/
   const toggleMutation = useToggleOptimisticUi();
   const pendingData = useMutationState({
     filters: { mutationKey: [MUTATION_KEY], status: 'pending' },
@@ -28,7 +34,6 @@ const DetailPage = () => {
   const pending = pendingData ? pendingData[0] : null;
   console.log('toggleMutation', toggleMutation.isPending);
   console.log('pendingData', pendingData);
-   */
 
   if (detail.data)
     return (
@@ -38,8 +43,8 @@ const DetailPage = () => {
             <h1 className="text-2xl font-bold">{detail.data.task}</h1>
             <div className="flex items-center">
               <Checkbox
-                // checked={pending ? pending.done : detail.data.done}
-                checked={detail.data.done}
+                checked={pending ? pending.done : detail.data.done}
+                // checked={detail.data.done}
                 className="mr-2"
                 id="complete"
                 onCheckedChange={(checked: boolean) => {

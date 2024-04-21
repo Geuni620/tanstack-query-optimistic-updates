@@ -27,7 +27,7 @@ export async function POST(request: Request) {
 
     if (error) throw new Error(error.message);
 
-    // console.log('data', data);
+    console.log('data', data);
 
     return NextResponse.json({ message: 'Update successful' });
   } catch (error) {
