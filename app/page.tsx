@@ -35,7 +35,7 @@ export default function Home() {
             placeholder="Task name"
           />
         </form>
-        <TableComponents data={tableList.data?.list || []} />
+        <TableComponents data={tableList.data || []} />
       </div>
     </div>
   );

@@ -26,28 +26,19 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { type List } from '@/hook/useTableDataGetQuery';
 import { useToggleMutation } from '@/hook/useToggleMutation';
 
-interface ColumnDataProps {
-  id: number;
-  task: string;
-  statusId: number;
-  statusName: string;
-  notes: string;
-  date: Date;
-  done: boolean;
-}
-
 interface TableProps {
-  table: TTable<ColumnDataProps>;
+  table: TTable<List>;
 }
 
 interface RowProps {
-  row: TRow<ColumnDataProps>;
+  row: TRow<List>;
 }
 
 type TableComponentsProps = {
-  data: ColumnDataProps[];
+  data: List[];
 };
 
 export const TableComponents: React.FC<TableComponentsProps> = ({ data }) => {
@@ -56,7 +47,7 @@ export const TableComponents: React.FC<TableComponentsProps> = ({ data }) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const columnHelper = createColumnHelper<ColumnDataProps>();
+  const columnHelper = createColumnHelper<List>();
   const columns = [
     columnHelper.accessor('done', {
       header: ({ table }: TableProps) => (

@@ -1,6 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 import camelcaseKeys from 'camelcase-keys';
 
+export type List = {
+  id: number;
+  task: string;
+  statusId: number;
+  statusName: string;
+  notes: string;
+  date: Date;
+  done: boolean;
+};
+
 const getTableDataViaPOST = async ({
   searchCondition,
 }: {
@@ -19,9 +29,9 @@ const getTableDataViaPOST = async ({
   }
 
   const data = await res.json();
-  const camelcaseData = camelcaseKeys(data, { deep: true });
+  const { list } = camelcaseKeys(data, { deep: true });
 
-  return camelcaseData;
+  return list;
 };
 
 type TableDataProps = {
@@ -29,7 +39,7 @@ type TableDataProps = {
 };
 
 export const useTableDataGetQuery = ({ searchCondition }: TableDataProps) => {
-  return useQuery({
+  return useQuery<List[]>({
     queryFn: () => getTableDataViaPOST({ searchCondition }),
     queryKey: ['table', searchCondition],
   });
