@@ -29,7 +29,7 @@ const changeToggle = async ({ id, done }: ChangeToggle) => {
   return data;
 };
 
-export const useToggleOptimistic = () => {
+export const useToggleOptimisticUi = () => {
   const queryClient = useQueryClient();
 
   const toggleMutation = useMutation({

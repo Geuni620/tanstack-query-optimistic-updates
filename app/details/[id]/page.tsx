@@ -10,13 +10,15 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { useDetailDataGetQuery } from '@/hook/useDetailDataGetQuery';
 import { type DetailData } from '@/hook/useDetailDataGetQuery';
-import { MUTATION_KEY } from '@/hook/useToggleOptimistic';
-import { useToggleOptimistic } from '@/hook/useToggleOptimistic';
+import { MUTATION_KEY } from '@/hook/useToggleOptimisticUi';
+import { useToggleOptimisticUi } from '@/hook/useToggleOptimisticUi';
 
 const DetailPage = () => {
   const { id } = useParams();
   const detail = useDetailDataGetQuery({ id });
-  const toggleMutation = useToggleOptimistic();
+
+  /**
+  const toggleMutation = useToggleOptimisticUi();
   const pendingData = useMutationState({
     filters: { mutationKey: [MUTATION_KEY], status: 'pending' },
     select: (mutation) => {
@@ -26,8 +28,9 @@ const DetailPage = () => {
   });
 
   const pending = pendingData ? pendingData[0] : null;
-  // console.log('toggleMutation', toggleMutation.isPending);
-  // console.log('pendingData', pendingData);
+  console.log('toggleMutation', toggleMutation.isPending);
+  console.log('pendingData', pendingData);
+   */
 
   if (detail.data)
     return (
@@ -37,8 +40,8 @@ const DetailPage = () => {
             <h1 className="text-2xl font-bold">{detail.data.task}</h1>
             <div className="flex items-center">
               <Checkbox
-                checked={pending ? pending.done : detail.data.done}
-                // checked={detail.data.done}
+                // checked={pending ? pending.done : detail.data.done}
+                checked={detail.data.done}
                 className="mr-2"
                 id="complete"
                 onCheckedChange={(checked: boolean) => {
