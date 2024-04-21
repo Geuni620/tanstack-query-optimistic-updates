@@ -1,6 +1,4 @@
 import { createClient } from '@supabase/supabase-js';
-import { format } from 'date-fns';
-import { ko } from 'date-fns/locale';
 import { NextResponse } from 'next/server';
 
 import { handleErrorResponse } from '@/app/api/errorHandler';
@@ -13,8 +11,7 @@ const supabase = createClient(
 export async function POST(request: Request) {
   try {
     const { selectedRow } = await request.json();
-
-    const now = format(new Date(), 'yyyy-MM-dd HH:mm:ss', { locale: ko });
+    const now = new Date();
 
     const { data: currentTasks, error: fetchError } = await supabase
       .from('tasks')

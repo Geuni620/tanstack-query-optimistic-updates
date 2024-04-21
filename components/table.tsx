@@ -11,6 +11,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { format } from 'date-fns';
+import { ko } from 'date-fns/locale';
 import { ArrowUpDown } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -107,7 +108,9 @@ export const TableComponents: React.FC<TableComponentsProps> = ({ data }) => {
     columnHelper.accessor('date', {
       header: 'Date',
       size: 200,
-      cell: (props) => <p>{format(props.getValue(), 'yyyy-MM-dd HH:mm:ss')}</p>,
+      cell: (props) => (
+        <p>{format(props.getValue(), 'yyyy-MM-dd HH:mm:ss', { locale: ko })}</p>
+      ),
     }),
   ];
 

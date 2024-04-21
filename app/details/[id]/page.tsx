@@ -1,7 +1,7 @@
 'use client';
 
-import { useMutationState } from '@tanstack/react-query';
 import { format } from 'date-fns';
+import { ko } from 'date-fns/locale';
 import { useParams } from 'next/navigation';
 
 import { Comment } from '@/components/comment';
@@ -9,31 +9,12 @@ import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { useDetailDataGetQuery } from '@/hook/useDetailDataGetQuery';
-import { type DetailData } from '@/hook/useDetailDataGetQuery';
-import {
-  MUTATION_KEY,
-  useToggleOptimisticCache,
-  useToggleOptimisticUi,
-} from '@/hook/useToggleOptimistic';
+import { useToggleOptimisticCache } from '@/hook/useToggleOptimistic';
 
 const DetailPage = () => {
   const { id } = useParams();
   const detail = useDetailDataGetQuery({ id });
-  // const toggleMutation = useToggleOptimisticCache();
-
-  /***/
-  const toggleMutation = useToggleOptimisticUi();
-  const pendingData = useMutationState({
-    filters: { mutationKey: [MUTATION_KEY], status: 'pending' },
-    select: (mutation) => {
-      console.log('mutation', mutation);
-      return mutation.state.variables as DetailData;
-    },
-  });
-
-  const pending = pendingData ? pendingData[0] : null;
-  console.log('toggleMutation', toggleMutation.isPending);
-  console.log('pendingData', pendingData);
+  const toggleMutation = useToggleOptimisticCache();
 
   if (detail.data)
     return (
@@ -43,18 +24,19 @@ const DetailPage = () => {
             <h1 className="text-2xl font-bold">{detail.data.task}</h1>
             <div className="flex items-center">
               <Checkbox
-                checked={pending ? pending.done : detail.data.done}
-                // checked={detail.data.done}
+                checked={detail.data.done}
                 className="mr-2"
                 id="complete"
                 onCheckedChange={(checked: boolean) => {
+                  const now = new Date();
                   toggleMutation.mutate({
                     id: detail.data.id,
                     done: checked,
+                    date: now,
                   });
                 }}
               />
-              {/* <Label htmlFor="complete">Mark as Complete</Label> */}
+
               {toggleMutation.isPending ? (
                 <Label className="opacity-20" htmlFor="complete">
                   Mark as Complete
@@ -66,7 +48,9 @@ const DetailPage = () => {
           </div>
           <p className="mt-2 text-gray-500">{detail.data.notes}</p>
           <Badge className="text-end">
-            {format(detail.data.date, 'yyyy-MM-dd HH:mm:ss')}
+            {format(detail.data.date, 'yyyy-MM-dd HH:mm:ss', {
+              locale: ko,
+            })}
           </Badge>
         </div>
         <Comment />
